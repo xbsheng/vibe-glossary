@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { TERMS } from '../data/terms'
 
-export type Route = { view: 'list' } | { view: 'term'; slug: string }
+export type Route =
+  | { view: 'list' }
+  | { view: 'term'; slug: string }
+  | { view: 'scripts' }
 
 function parseHash(hash: string): Route {
+  if (hash === '#/scripts') return { view: 'scripts' }
   const m = hash.match(/^#\/t\/([^/]+)/)
   if (m) {
     const slug = decodeURIComponent(m[1])
@@ -23,12 +27,4 @@ export function useHashRoute(): Route {
     return () => window.removeEventListener('hashchange', onChange)
   }, [])
   return route
-}
-
-export function navigateToTerm(slug: string) {
-  window.location.hash = `/t/${slug}`
-}
-
-export function navigateToList() {
-  window.location.hash = '/'
 }

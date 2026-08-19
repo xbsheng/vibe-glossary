@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { TERMS } from '../data/terms'
 
 const KEY = 'vibe-glossary:favorites:v1'
 
@@ -34,4 +35,19 @@ export function useFavorites() {
     has: (s: string) => ids.includes(s),
     count: ids.length,
   }
+}
+
+/** 把生词本拼成可复制/分享的清单文本 */
+export function buildExportText(ids: string[]): string {
+  const lines = TERMS.filter((t) => ids.includes(t.slug)).map(
+    (t, i) => `${i + 1}. ${t.term}（${t.en}）\n   ${t.plain}`,
+  )
+  const date = new Date().toLocaleDateString('zh-CN')
+  return [
+    '我收藏的 AI 协作黑话（来自 Vibe 词典）',
+    '',
+    ...lines,
+    '',
+    `共 ${lines.length} 条 · ${date}`,
+  ].join('\n')
 }

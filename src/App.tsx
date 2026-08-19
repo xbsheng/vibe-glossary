@@ -1,14 +1,17 @@
 import { useMemo, useState } from 'react'
 import { TERMS, type CategoryId, type Difficulty } from './data/terms'
 import { useHashRoute } from './lib/hash-route'
-import { useFavorites } from './lib/favorites'
+import { buildExportText, useFavorites } from './lib/favorites'
 import { searchTerms } from './lib/search'
+import CopyButton from './components/CopyButton'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import ScriptsPage from './components/ScriptsPage'
 import TermCard from './components/TermCard'
 import TermDetail from './components/TermDetail'
 import Toolbar from './components/Toolbar'
+import { DownloadIcon } from './components/icons'
 
 export default function App() {
   const route = useHashRoute()
@@ -30,10 +33,23 @@ export default function App() {
     setFavOnly(false)
   }
 
+  const downloadFavorites = () => {
+    const blob = new Blob([buildExportText(favorites)], {
+      type: 'text/plain;charset=utf-8',
+    })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `生词本-${new Date().toISOString().slice(0, 10)}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   if (route.view === 'term') {
     return (
       <div className="flex min-h-screen flex-col bg-paper">
         <Header
+          view={route.view}
           favCount={count}
           favActive={favOnly}
           onToggleFav={() => setFavOnly((v) => !v)}
@@ -50,9 +66,27 @@ export default function App() {
     )
   }
 
+  if (route.view === 'scripts') {
+    return (
+      <div className="flex min-h-screen flex-col bg-paper">
+        <Header
+          view={route.view}
+          favCount={count}
+          favActive={favOnly}
+          onToggleFav={() => setFavOnly((v) => !v)}
+        />
+        <main className="flex-1">
+          <ScriptsPage />
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-paper">
       <Header
+        view={route.view}
         favCount={count}
         favActive={favOnly}
         onToggleFav={() => setFavOnly((v) => !v)}
@@ -68,12 +102,26 @@ export default function App() {
                 {results.length} / {favOnly ? count : TERMS.length} 个
               </span>
             </h2>
-            {query && !favOnly && (
-              <p className="text-sm text-ink-3">
-                关键词“<span className="text-accent">{query}</span>”命中{' '}
-                {results.length} 条
-              </p>
-            )}
+            <div className="flex items-center gap-3">
+              {favOnly && count > 0 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={downloadFavorites}
+                    className="flex items-center gap-1.5 rounded-lg border border-line bg-card px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:border-line-strong hover:text-ink"
+                  >
+                    <DownloadIcon className="h-3.5 w-3.5" />
+                    下载 .txt
+                  </button>
+                  <CopyButton text={buildExportText(favorites)} label="复制清单" />
+                </div>
+              )}
+              {query && !favOnly && (
+                <p className="text-sm text-ink-3">
+                  关键词“<span className="text-accent">{query}</span>”命中{' '}
+                  {results.length} 条
+                </p>
+              )}
+            </div>
           </div>
 
           {favOnly && count === 0 ? (

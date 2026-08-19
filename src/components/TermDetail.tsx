@@ -1,44 +1,6 @@
-import { useState } from 'react'
 import { CATEGORIES, TERMS, type Term } from '../data/terms'
-import { navigateToList, navigateToTerm } from '../lib/hash-route'
-import {
-  ArrowLeftIcon,
-  BookmarkIcon,
-  CheckIcon,
-  ChevronRightIcon,
-  CopyIcon,
-} from './icons'
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(text)
-    } catch {
-      // 剪贴板不可用时静默失败
-    }
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1600)
-  }
-  return (
-    <button
-      onClick={copy}
-      aria-label={copied ? '已复制' : '复制这段话'}
-      className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
-        copied
-          ? 'border-accent/40 bg-accent-soft text-accent-deep'
-          : 'border-line bg-card text-ink-2 hover:border-line-strong hover:text-ink'
-      }`}
-    >
-      {copied ? (
-        <CheckIcon className="h-3.5 w-3.5" />
-      ) : (
-        <CopyIcon className="h-3.5 w-3.5" />
-      )}
-      {copied ? '已复制' : '复制'}
-    </button>
-  )
-}
+import CopyButton from './CopyButton'
+import { ArrowLeftIcon, BookmarkIcon, ChevronRightIcon } from './icons'
 
 function Section({
   no,
@@ -86,13 +48,13 @@ export default function TermDetail({
   return (
     <div className="px-4 py-10 sm:px-6 sm:py-14">
       <div className="mx-auto max-w-3xl">
-        <button
-          onClick={navigateToList}
-          className="mb-8 flex items-center gap-1.5 text-sm text-ink-3 transition-colors hover:text-ink"
+        <a
+          href="#/"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm text-ink-3 transition-colors hover:text-ink"
         >
           <ArrowLeftIcon className="h-4 w-4" />
           返回词条库
-        </button>
+        </a>
 
         <header>
           <div className="flex items-start justify-between gap-4">
@@ -164,14 +126,14 @@ export default function TermDetail({
           <Section no="03" title="相关词条">
             <div className="flex flex-wrap gap-2">
               {related.map((r) => (
-                <button
+                <a
                   key={r.slug}
-                  onClick={() => navigateToTerm(r.slug)}
+                  href={`#/t/${r.slug}`}
                   className="group flex items-center gap-1 rounded-full border border-line bg-card px-3.5 py-2 text-sm text-ink-2 transition-colors hover:border-line-strong hover:text-ink"
                 >
                   {r.term}
                   <ChevronRightIcon className="h-3.5 w-3.5 text-ink-3 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                </a>
               ))}
             </div>
           </Section>
