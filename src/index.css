@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f7f5f1;
+  --color-card: #ffffff;
+  --color-ink: #221e19;
+  --color-ink-2: #57503f;
+  --color-ink-3: #8d857a;
+  --color-line: #e7e1d6;
+  --color-line-strong: #d6cec0;
+  --color-accent: #c2410c;
+  --color-accent-deep: #9a3412;
+  --color-accent-soft: #fbece1;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-serif: "Iowan Old Style", Georgia, "Songti SC", "Noto Serif SC",
+    "STSong", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+mark {
+  @apply bg-transparent text-accent font-semibold;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
