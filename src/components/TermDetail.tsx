@@ -104,6 +104,15 @@ export default function TermDetail({
           </p>
         </blockquote>
 
+        {term.note && (
+          <aside className="mt-6 rounded-xl border border-accent/25 bg-accent-soft/60 p-4">
+            <p className="text-sm leading-relaxed text-ink-2">
+              <span className="mr-1.5 font-semibold text-accent-deep">别搞混</span>
+              {term.note}
+            </p>
+          </aside>
+        )}
+
         <div className="mt-12 space-y-10">
           <Section no="01" title="什么时候你会碰到">
             <p className="text-[15px] leading-relaxed text-ink-2">{term.when}</p>

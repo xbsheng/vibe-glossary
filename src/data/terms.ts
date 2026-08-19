@@ -10,6 +10,8 @@ export interface Term {
   plain: string
   when: string
   howToSay: string
+  /** 与本词条同名的其他常见含义，提醒别搞混（可选） */
+  note?: string
   categories: CategoryId[]
   difficulty: Difficulty
   related: string[]
@@ -36,9 +38,10 @@ export const TERMS: Term[] = [
     en: 'Token',
     plain:
       "AI 的“计费字数”。AI 不按汉字数算钱，按 token 算，大概 1 个汉字 ≈ 1~2 个 token。对话越长烧得越多，AI 说“超出长度限制”，本质是 token 预算用完了。",
-    when: '对话突然变卡、变贵，或者 AI 说“内容超出上下文长度”。',
+    when: '对话突然变卡、变贵，或者 AI 说“内容超出上下文长度”。若 AI 说“token 失效”，指的不是这个，而是下面的登录凭证。',
     howToSay:
       '我们开个新对话继续，之前的背景我重新交代一遍，这样省 token。你先告诉我怎么把当前上下文压缩一下。',
+    note: '别搞混：这里指的是 AI 的计费 / 上下文单位。登录、鉴权里的“token”是另一回事——那是一种临时的登录凭证，失效了就会提示重新登录。两个都叫 token。',
     categories: ['chat'],
     difficulty: 'entry',
     related: ['context-window', 'prompt'],
@@ -117,6 +120,7 @@ export const TERMS: Term[] = [
     when: 'AI 说“调用 API”“对接接口”，或者要你填 API Key、看接口文档。',
     howToSay:
       '我需要调用这个 API，但没写过代码。请帮我写一个最简单的调用示例，并告诉我结果在哪里能看到。',
+    note: '别搞混：开发里说的“接口”指程序之间的 API。“用户界面”“交互设计”里说的“接口”，是另一个意思，指的是给人看的页面。',
     categories: ['code', 'chat'],
     difficulty: 'entry',
     related: ['backend', 'api-key', 'api-docs'],
@@ -455,6 +459,7 @@ export const TERMS: Term[] = [
     when: 'AI 让你“打开终端”“运行 pnpm dev”。',
     howToSay:
       '我不知道怎么打开终端、在哪敲命令。请告诉我：Mac / Windows 上按什么快捷键打开，然后完整命令是什么。',
+    note: '别搞混：这里是“命令行窗口”。在“移动端”“终端用户”里说的“终端”，指的是手机、电脑这类用户设备，不是这个黑框。',
     categories: ['run'],
     difficulty: 'entry',
     related: ['command-line', 'package-manager'],
@@ -753,6 +758,7 @@ export const TERMS: Term[] = [
     when: 'AI 说“加个路由”“这个页面的路由不对”时。',
     howToSay:
       '我要加一个新页面，用户访问 /feedback 就能看到。请告诉我怎么加路由。',
+    note: '别搞混：这里指网页跳转的路由。家里、公司用的“路由器”是管网络数据的硬件设备，不是一回事。',
     categories: ['code'],
     difficulty: 'advanced',
     related: ['frontend', 'component'],
