@@ -10,8 +10,7 @@ export default function Footer() {
             词条内容仅供参考，具体以你的项目和 AI 的实际表现为准
           </p>
           <p className="text-xs text-ink-3">
-            用 <span className="font-mono">vibe coding</span> 写的词条，也写给 vibe
-            coder。
+            用 <span className="font-mono">vibe coding</span> 写的词条，也写给 vibe coder
           </p>
         </div>
       </div>

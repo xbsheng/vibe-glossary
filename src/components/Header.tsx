@@ -1,6 +1,6 @@
 import { TERMS } from '../data/terms'
 import type { Route } from '../lib/hash-route'
-import { BookmarkIcon } from './icons'
+import { BookmarkIcon, GithubIcon } from './icons'
 
 interface Props {
   view: Route['view']
@@ -8,6 +8,8 @@ interface Props {
   favActive: boolean
   onToggleFav: () => void
 }
+
+const REPO_URL = 'https://github.com/xbsheng/vibe-glossary'
 
 const NAV = [
   { view: 'list', label: '词条库', href: '#/' },
@@ -48,6 +50,16 @@ export default function Header({ view, favCount, favActive, onToggleFav }: Props
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub 源码仓库"
+            className="flex h-9 items-center gap-1.5 rounded-full border border-line bg-card px-3 text-[13px] font-medium text-ink-2 transition-colors hover:border-line-strong hover:text-ink"
+          >
+            <GithubIcon className="h-4 w-4" />
+            <span className="hidden md:inline">GitHub</span>
+          </a>
           <button
             onClick={onToggleFav}
             aria-pressed={favActive}
