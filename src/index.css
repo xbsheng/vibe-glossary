@@ -24,6 +24,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 可点击控件统一 pointer 手型：按钮默认是箭头，逐个补太碎 */
+button:not(:disabled),
+[role='button'],
+label[for] {
+  cursor: pointer;
+}
+
 body {
   @apply bg-paper text-ink font-sans antialiased;
 }
